@@ -12,6 +12,19 @@ import contactRoutes from "./routes/contactRoutes.js"
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json())
+app.use(cors());
+
+app.get("/", (req, res) => {res.send("Sparkrise Careers API is running")})
+
+
+app.use('/api/users', userRouter);
+app.use('/api/resumes', resumeRouter)
+app.use('/api/ai', aiRouter)
+app.use("/api/admin", adminRouter);
+app.use("/api/jobs", jobRouter);
+app.use("/api/contact", contactRoutes);
+
 const startServer = async () => {
   try {
     await connectDB();
@@ -25,16 +38,5 @@ const startServer = async () => {
 };
 
 startServer();
-
-app.use(express.json())
-app.use(cors())
-
-app.get('/', (req,res)=> res.send('API is running...hello'));
-app.use('/api/users', userRouter);
-app.use('/api/resumes', resumeRouter)
-app.use('/api/ai', aiRouter)
-app.use("/api/admin", adminRouter);
-app.use("/api/jobs", jobRouter);
-app.use("/api/contact", contactRoutes)
 
 
