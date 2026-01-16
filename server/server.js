@@ -12,8 +12,19 @@ import contactRoutes from "./routes/contactRoutes.js"
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// connect database
-await connectDB()
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Server failed to start", error);
+  }
+};
+
+startServer();
 
 app.use(express.json())
 app.use(cors())
@@ -26,7 +37,4 @@ app.use("/api/admin", adminRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api/contact", contactRoutes)
 
-app.listen(PORT, () =>{
-     console.log(`Server is running on port ${PORT}`)
-     
-});
+
